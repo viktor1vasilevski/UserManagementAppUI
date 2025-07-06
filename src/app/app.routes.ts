@@ -10,6 +10,7 @@ import { RegisterComponent } from './admin/features/users/register/register.comp
 import { LayoutComponent } from './shared/layout/layout.component';
 import { activeGuard } from './core/guard/active.guard';
 import { adminGuard } from './core/guard/admin.guard';
+import { UserEditComponent } from './admin/features/users/user-edit/user-edit.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -26,6 +27,11 @@ export const routes: Routes = [
       {
         path: 'users',
         component: UserListComponent,
+        canActivate: [authGuard, activeGuard, adminGuard],
+      },
+      {
+        path: 'users/edit/:id',
+        component: UserEditComponent,
         canActivate: [authGuard, activeGuard, adminGuard],
       },
       {
