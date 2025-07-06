@@ -79,6 +79,18 @@ export class UserListComponent implements OnInit {
     });
   }
 
+  onEditUser(userId: string, username: string): void {
+    if (username == 'admin') {
+      const modal = document.getElementById('infoModal');
+      if (modal) {
+        const bootstrapModal = new bootstrap.Modal(modal);
+        bootstrapModal.show();
+      }
+    } else {
+      this.router.navigate(['users/edit', userId]);
+    }
+  }
+
   deleteUser() {
     this._userService.deleteUser(this.userToDelete.id).subscribe({
       next: (response: any) => {
@@ -131,8 +143,7 @@ export class UserListComponent implements OnInit {
   }
 
   showDeleteUsersModal(user: any) {
-
-    debugger
+    debugger;
     if (user.username == 'admin') {
       const modal = document.getElementById('infoModal');
       if (modal) {

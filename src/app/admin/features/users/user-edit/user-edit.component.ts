@@ -1,5 +1,10 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NotificationService } from '../../../../core/service/notification.service';
 import { ErrorHandlerService } from '../../../../core/service/error-handler.service';
@@ -11,7 +16,7 @@ import { UserService } from '../../../../core/service/user.service';
   templateUrl: './user-edit.component.html',
   styleUrl: './user-edit.component.css',
 })
-export class UserEditComponent {
+export class UserEditComponent implements OnInit {
   editUserForm: FormGroup;
   isSubmitting = false;
   selectedUserId: string = '';
@@ -27,12 +32,39 @@ export class UserEditComponent {
     this.editUserForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      role: ['User', Validators.required],
-      isActive: [true],
+      role: ['', Validators.required],
+      isActive: [false, Validators.required],
     });
   }
 
-  onSubmit() {
-    
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      this.selectedUserId = params['id'];
+      this.loadUserById();
+    });
+  }
+
+  onSubmit() {}
+
+  loadUserById() {
+    this._userService.getUserById(this.selectedUserId).subscribe({
+      next: (response: any) => {
+        if (response && response.success && response.data) {
+          console.log(response.data);
+          
+          this.editUserForm.patchValue({
+            firstName: response.data?.firstName,
+            lastName: response.data?.lastName,
+            role: response.data?.role,
+            isActive: response.data.isActive
+          });
+        } else {
+          this._notificationService.error(response.message);
+        }
+      },
+      error: (errorResponse: any) => {
+        this._errorHandlerService.handleErrors(errorResponse);
+      },
+    });
   }
 }

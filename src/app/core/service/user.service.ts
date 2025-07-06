@@ -9,8 +9,8 @@ import { HttpParams } from '@angular/common/http';
 export class UserService {
   private baseUrl = 'https://localhost:44395/api';
 
-  private userAddedOrEditedSource = new BehaviorSubject<boolean>(false);
-  userAddedOrEdited$ = this.userAddedOrEditedSource.asObservable();
+  private userIsEditedSource = new BehaviorSubject<boolean>(false);
+  userIsEdited$ = this.userIsEditedSource.asObservable();
 
   constructor(private _dataApiService: DataService) {}
 
@@ -27,5 +27,14 @@ export class UserService {
   deleteUser(id: string): Observable<any> {
     const url = `${this.baseUrl}/user/${id}`;
     return this._dataApiService.delete<any>(url);
+  }
+
+  getUserById(id: string): Observable<any> {
+    const url = `${this.baseUrl}/user/${id}`;
+    return this._dataApiService.getById<any>(url);
+  }
+
+  notifyUserIsEdited() {
+    this.userIsEditedSource.next(true);
   }
 }

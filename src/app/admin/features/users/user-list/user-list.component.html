@@ -92,7 +92,7 @@
               <td class="text-end">
                 <button
                   class="btn btn-sm btn-outline-info me-2"
-                  (click)="router.navigate(['users/edit', user.id])"
+                  (click)="onEditUser(user.id, user.username)"
                   title="Edit"
                 >
                   <i class="bi bi-pencil"></i>
