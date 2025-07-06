@@ -1,0 +1,32 @@
+.dropdown-menu {
+  left: 0 !important;
+  right: 0 !important;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-top: 3px solid #ffc107;
+}
+
+.dropdown-menu .row {
+  width: 100%;
+}
+
+.dropdown-menu .dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #212529;
+  font-weight: 500;
+}
+
+.navbar .dropdown-menu {
+  transition: all 0.3s ease;
+}
+
+.nav-link.position-relative {
+  position: relative;
+}
+
+.nav-link.position-relative .badge {
+  top: -0.25rem;
+  right: -0.5rem;
+  font-size: 0.7rem;
+}
