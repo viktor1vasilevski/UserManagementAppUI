@@ -34,6 +34,13 @@ export class UserService {
     return this._dataApiService.getById<any>(url);
   }
 
+  editSubcategory(id: string, request: any): Observable<any> {
+    return this._dataApiService.put<any, any>(
+      `${this.baseUrl}/user/${id}`,
+      request
+    );
+  }
+
   notifyUserIsEdited() {
     this.userIsEditedSource.next(true);
   }

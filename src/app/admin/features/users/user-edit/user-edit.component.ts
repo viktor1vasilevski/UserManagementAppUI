@@ -44,7 +44,31 @@ export class UserEditComponent implements OnInit {
     });
   }
 
-  onSubmit() {}
+  onSubmit() {
+    if (!this.editUserForm.valid) {
+      this._notificationService.info('Invalid form');
+      return;
+    }
+    this.isSubmitting = true;
+    this._userService
+      .editSubcategory(this.selectedUserId, this.editUserForm.value)
+      .subscribe({
+        next: (response: any) => {
+          if (response && response.success) {
+            this._userService.notifyUserIsEdited();
+            this._notificationService.success(response.message);
+            this.router.navigate(['/users']);
+          } else {
+            this.isSubmitting = false;
+            this._notificationService.error(response.message);
+          }
+        },
+        error: (errorResponse: any) => {
+          this.isSubmitting = false;
+          this._errorHandlerService.handleErrors(errorResponse);
+        },
+      });
+  }
 
   loadUserById() {
     this._userService.getUserById(this.selectedUserId).subscribe({
