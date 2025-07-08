@@ -23,8 +23,6 @@ export class LoginComponent implements OnInit {
   isSubmitting = false;
   loginForm: FormGroup;
   showPassword = false;
-  passwordPattern =
-    '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{4,}$';
   @ViewChild('passwordInput') passwordInput!: ElementRef;
 
   constructor(
@@ -37,11 +35,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(5)]],
-      password: [
-        '',
-        [Validators.required, Validators.pattern(this.passwordPattern)],
-      ],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
   }
 
@@ -76,7 +71,6 @@ export class LoginComponent implements OnInit {
           };
           this._authManagerService.setAuth(userData);
           if (userData.isActive == false) {
-            
             this.router.navigate(['/inactive']);
           } else {
             this.router.navigate(['/home']);
