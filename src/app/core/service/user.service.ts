@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DataService } from './data.service';
 import { HttpParams } from '@angular/common/http';
 
@@ -8,9 +8,6 @@ import { HttpParams } from '@angular/common/http';
 })
 export class UserService {
   private baseUrl = 'https://localhost:44395/api';
-
-  private userIsEditedSource = new BehaviorSubject<boolean>(false);
-  userIsEdited$ = this.userIsEditedSource.asObservable();
 
   constructor(private _dataApiService: DataService) {}
 
@@ -39,9 +36,5 @@ export class UserService {
       `${this.baseUrl}/user/${id}`,
       request
     );
-  }
-
-  notifyUserIsEdited() {
-    this.userIsEditedSource.next(true);
   }
 }

@@ -10,7 +10,7 @@ export class NotificationService {
   constructor(private _toastr: ToastrService) {}
 
   success(
-    message: string | null,
+    message: string | null | undefined,
     title: string = 'Success',
     options: any = {}
   ) {
@@ -41,7 +41,7 @@ export class NotificationService {
     });
   }
 
-  error(message: string, title: string = 'Error', options: any = {}) {
+  error(message: string | undefined, title: string = 'Error', options: any = {}) {
     this._toastr.error(message, title, {
       timeOut: 4500,
       positionClass: 'toast-bottom-right',

@@ -10,6 +10,8 @@ import { AuthService } from '../../../../core/service/auth.service';
 import { NotificationService } from '../../../../core/service/notification.service';
 import { ErrorHandlerService } from '../../../../core/service/error-handler.service';
 import { Router } from '@angular/router';
+import { UserRegisterDto } from '../../../../core/models/auth/user-register-dto.model';
+import { ApiResponse } from '../../../../core/models/api-response.model';
 
 @Component({
   selector: 'app-register',
@@ -51,7 +53,7 @@ export class RegisterComponent {
         role: Number(this.registerForm.value.role),
       };
       this._authService.register(registerForm).subscribe({
-        next: (response: any) => {
+        next: (response: ApiResponse<UserRegisterDto>) => {
           if (response && response.success && response.data) {
             this.router.navigate(['/home']);
             this._notificationService.success(response.message);
@@ -59,7 +61,7 @@ export class RegisterComponent {
             this._notificationService.error(response.message);
           }
         },
-        error: (errorResponse: any) => {
+        error: (errorResponse: ApiResponse<UserRegisterDto>) => {
           this._errorHandlerService.handleErrors(errorResponse);
         },
       });

@@ -55,7 +55,6 @@ export class UserEditComponent implements OnInit {
       .subscribe({
         next: (response: any) => {
           if (response && response.success) {
-            this._userService.notifyUserIsEdited();
             this._notificationService.success(response.message);
             this.router.navigate(['/users']);
           } else {

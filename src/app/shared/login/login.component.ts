@@ -12,6 +12,8 @@ import { AuthService } from '../../core/service/auth.service';
 import { AuthManagerService } from '../../core/service/auth-manager.service';
 import { NotificationService } from '../../core/service/notification.service';
 import { ErrorHandlerService } from '../../core/service/error-handler.service';
+import { ApiResponse } from '../../core/models/api-response.model';
+import { UserLoginDTO } from '../../core/models/auth/user-login-dto.model';
 
 @Component({
   selector: 'app-login',
@@ -60,7 +62,7 @@ export class LoginComponent implements OnInit {
     }
     this.isSubmitting = true;
     this._authService.login(this.loginForm.value).subscribe({
-      next: (response: any) => {
+      next: (response: ApiResponse<UserLoginDTO>) => {
         if (response && response.success && response.data) {
           const userData = {
             username: response.data.username,
@@ -70,11 +72,10 @@ export class LoginComponent implements OnInit {
             isActive: response.data.isActive,
           };
           this._authManagerService.setAuth(userData);
-          if (userData.isActive == false) {
-            this.router.navigate(['/inactive']);
-          } else {
-            this.router.navigate(['/home']);
-          }
+
+          userData.isActive == false
+            ? this.router.navigate(['/inactive'])
+            : this.router.navigate(['/home']);
 
           this._notificationService.success(response.message);
         } else {
@@ -82,7 +83,7 @@ export class LoginComponent implements OnInit {
           this.isSubmitting = false;
         }
       },
-      error: (errorResponse: any) => {
+      error: (errorResponse: ApiResponse<UserLoginDTO>) => {
         this._errorHandlerService.handleErrors(errorResponse);
         this.isSubmitting = false;
       },

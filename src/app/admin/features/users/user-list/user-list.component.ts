@@ -58,8 +58,6 @@ export class UserListComponent implements OnInit {
         this.userRequest.skip = 0;
         this.loadUsers();
       });
-
-    this.loadUsers();
   }
 
   loadUsers() {
@@ -143,7 +141,6 @@ export class UserListComponent implements OnInit {
   }
 
   showDeleteUsersModal(user: any) {
-    debugger;
     if (user.username == 'admin') {
       const modal = document.getElementById('infoModal');
       if (modal) {
