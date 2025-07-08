@@ -9,6 +9,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { NotificationService } from '../../../../core/service/notification.service';
 import { ErrorHandlerService } from '../../../../core/service/error-handler.service';
 import { UserService } from '../../../../core/service/user.service';
+import { ApiResponse } from '../../../../core/models/api-response.model';
+import { UserDetailsDto } from '../../../../core/models/user/user-details-dto.model';
 
 @Component({
   selector: 'app-user-edit',
@@ -53,16 +55,16 @@ export class UserEditComponent implements OnInit {
     this._userService
       .editSubcategory(this.selectedUserId, this.editUserForm.value)
       .subscribe({
-        next: (response: any) => {
+        next: (response: ApiResponse<UserDetailsDto>) => {
           if (response && response.success) {
-            this._notificationService.success(response.message);
             this.router.navigate(['/users']);
+            this._notificationService.success(response.message);
           } else {
             this.isSubmitting = false;
             this._notificationService.error(response.message);
           }
         },
-        error: (errorResponse: any) => {
+        error: (errorResponse: ApiResponse<UserDetailsDto>) => {
           this.isSubmitting = false;
           this._errorHandlerService.handleErrors(errorResponse);
         },
@@ -74,12 +76,12 @@ export class UserEditComponent implements OnInit {
       next: (response: any) => {
         if (response && response.success && response.data) {
           console.log(response.data);
-          
+
           this.editUserForm.patchValue({
             firstName: response.data?.firstName,
             lastName: response.data?.lastName,
             role: response.data?.role,
-            isActive: response.data.isActive
+            isActive: response.data.isActive,
           });
         } else {
           this._notificationService.error(response.message);

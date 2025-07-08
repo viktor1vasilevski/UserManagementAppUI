@@ -7,13 +7,10 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PaginationComponent } from '../../../../core/components/pagination/pagination.component';
 import { debounceTime, distinctUntilChanged, filter, Subject } from 'rxjs';
+import { UserRequest } from '../../../../core/models/user/user-request.model';
+import { ApiResponse } from '../../../../core/models/api-response.model';
+import { UserDetailsDto } from '../../../../core/models/user/user-details-dto.model';
 declare var bootstrap: any;
-
-export interface UserRequest {
-  username: string;
-  skip: number;
-  take: number;
-}
 
 @Component({
   selector: 'app-user-list',
@@ -28,14 +25,12 @@ export class UserListComponent implements OnInit {
     take: 10,
   };
 
-  //@ViewChild('subcategoryNameInput') categoryNameInput!: ElementRef;
   private usernameChangeSubject = new Subject<string>();
 
   totalCount: number = 0;
   totalPages: number[] = [];
   users: any[] = [];
   currentPage: number = 1;
-
   userToDelete: any = null;
 
   constructor(
@@ -62,7 +57,7 @@ export class UserListComponent implements OnInit {
 
   loadUsers() {
     this._userService.getUsers(this.userRequest).subscribe({
-      next: (response: any) => {
+      next: (response: ApiResponse<UserDetailsDto[]>) => {
         if (response && response.success && response.data) {
           this.users = response.data;
           this.totalCount =
@@ -72,7 +67,7 @@ export class UserListComponent implements OnInit {
           this._notificationService.error(response.message);
         }
       },
-      error: (errorResponse: any) =>
+      error: (errorResponse: ApiResponse<UserDetailsDto[]>) =>
         this._errorHandlerService.handleErrors(errorResponse),
     });
   }
@@ -91,7 +86,7 @@ export class UserListComponent implements OnInit {
 
   deleteUser() {
     this._userService.deleteUser(this.userToDelete.id).subscribe({
-      next: (response: any) => {
+      next: (response: ApiResponse<string>) => {
         if (response && response.success) {
           this._notificationService.success(response.message);
           this.loadUsers();
@@ -99,7 +94,7 @@ export class UserListComponent implements OnInit {
           this._notificationService.error(response.message);
         }
       },
-      error: (errorResponse: any) =>
+      error: (errorResponse: ApiResponse<string>) =>
         this._errorHandlerService.handleErrors(errorResponse),
     });
     this.closeModal();

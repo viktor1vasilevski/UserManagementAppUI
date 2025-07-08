@@ -2,6 +2,11 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataService } from './data.service';
 import { HttpParams } from '@angular/common/http';
+import { UserRequest } from '../models/user/user-request.model';
+import { ApiResponse } from '../models/api-response.model';
+import { UserDetailsDto } from '../models/user/user-details-dto.model';
+import { UserDto } from '../models/user/user-dto.model';
+import { EditUserRequest } from '../models/user/edit-user-request.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,30 +16,36 @@ export class UserService {
 
   constructor(private _dataApiService: DataService) {}
 
-  getUsers(request: any): Observable<any> {
+  getUsers(request: UserRequest): Observable<ApiResponse<UserDetailsDto[]>> {
     const params = new HttpParams()
       .set('username', request.username)
       .set('skip', request.skip.toString())
       .set('take', request.take.toString());
 
     const url = `${this.baseUrl}/user`;
-    return this._dataApiService.getAll<any>(url, params);
-  }
-
-  deleteUser(id: string): Observable<any> {
-    const url = `${this.baseUrl}/user/${id}`;
-    return this._dataApiService.delete<any>(url);
-  }
-
-  getUserById(id: string): Observable<any> {
-    const url = `${this.baseUrl}/user/${id}`;
-    return this._dataApiService.getById<any>(url);
-  }
-
-  editSubcategory(id: string, request: any): Observable<any> {
-    return this._dataApiService.put<any, any>(
-      `${this.baseUrl}/user/${id}`,
-      request
+    return this._dataApiService.getAll<ApiResponse<UserDetailsDto[]>>(
+      url,
+      params
     );
+  }
+
+  deleteUser(id: string): Observable<ApiResponse<string>> {
+    const url = `${this.baseUrl}/user/${id}`;
+    return this._dataApiService.delete<ApiResponse<string>>(url);
+  }
+
+  getUserById(id: string): Observable<ApiResponse<UserDto>> {
+    const url = `${this.baseUrl}/user/${id}`;
+    return this._dataApiService.getById<ApiResponse<UserDto>>(url);
+  }
+
+  editSubcategory(
+    id: string,
+    request: EditUserRequest
+  ): Observable<ApiResponse<UserDetailsDto>> {
+    return this._dataApiService.put<
+      EditUserRequest,
+      ApiResponse<UserDetailsDto>
+    >(`${this.baseUrl}/user/${id}`, request);
   }
 }
