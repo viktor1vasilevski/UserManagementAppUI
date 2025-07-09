@@ -1,6 +1,6 @@
 # User Management Frontend (Angular)
 
-A role-based user management frontend built with Angular. This app connects to the .NET 8 Web API backend and allows administrators to manage users and regular users to view their own profiles.
+A role-based user management frontend built with Angular. This app connects to the .NET 9 Web API backend and allows administrators to manage users and regular users to view home(welcome) page.
 
 ## Tech Stack
 
@@ -15,7 +15,6 @@ A role-based user management frontend built with Angular. This app connects to t
 - **JWT-based Authentication**
 - **Role-Based Routing with Route Guards**
 
-
 ## Features
 
 - User authentication and authorization with JWT tokens  
@@ -24,6 +23,14 @@ A role-based user management frontend built with Angular. This app connects to t
 - Real-time notifications using ngx-toastr  
 - Secure route guarding to restrict access based on roles and active status  
 
+## Architecture Overview
+
+This project highlights:
+
+- **HTTP Interceptor:** Injects JWT tokens into all outgoing API requests and handles errors globally.
+- **Route Guards:** Secure routes based on user roles and active status, preventing unauthorized access.
+- **Models:** Strongly typed interfaces representing users and other entities.
+- **Data Service:** Implements a Unit of Work pattern managing all CRUD operations through a centralized service for cleaner and maintainable code.
 
 ## Usage
 
@@ -42,7 +49,4 @@ A role-based user management frontend built with Angular. This app connects to t
 
 - **Route Guards:**
   - Prevent unauthorized access to admin-only routes
-  - Redirect inactive and unauthorized users to a dedicated pages
-
-
-
+  - Redirect inactive and unauthorized users to dedicated pages
