@@ -8,6 +8,7 @@ import { UserDetailsDto } from '../models/user/user-details-dto.model';
 import { UserDto } from '../models/user/user-dto.model';
 import { EditUserRequest } from '../models/user/edit-user-request.model';
 import { environment } from '../../../enviroments/environment';
+import { ApiEndpoints } from '../constants/api-endpoints';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class UserService {
       .set('skip', request.skip.toString())
       .set('take', request.take.toString());
 
-    const url = `${this.baseUrl}/user`;
+    const url = `${this.baseUrl}/${ApiEndpoints.User.Base}`;
     return this._dataApiService.getAll<ApiResponse<UserDetailsDto[]>>(
       url,
       params
@@ -31,12 +32,12 @@ export class UserService {
   }
 
   deleteUser(id: string): Observable<ApiResponse<string>> {
-    const url = `${this.baseUrl}/user/${id}`;
+    const url = `${this.baseUrl}/${ApiEndpoints.User.ById(id)}`;
     return this._dataApiService.delete<ApiResponse<string>>(url);
   }
 
   getUserById(id: string): Observable<ApiResponse<UserDto>> {
-    const url = `${this.baseUrl}/user/${id}`;
+    const url = `${this.baseUrl}/${ApiEndpoints.User.ById(id)}`;
     return this._dataApiService.getById<ApiResponse<UserDto>>(url);
   }
 
@@ -47,6 +48,6 @@ export class UserService {
     return this._dataApiService.put<
       EditUserRequest,
       ApiResponse<UserDetailsDto>
-    >(`${this.baseUrl}/user/${id}`, request);
+    >(`${this.baseUrl}/${ApiEndpoints.User.ById(id)}`, request);
   }
 }

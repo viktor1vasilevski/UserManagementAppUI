@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { UserRegisterRequest } from '../models/auth/user-register-request.model';
 import { UserRegisterDto } from '../models/auth/user-register-dto.model';
 import { environment } from '../../../enviroments/environment';
+import { ApiEndpoints } from '../constants/api-endpoints';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class AuthService {
 
   login(request: UserLoginRequest): Observable<ApiResponse<UserLoginDTO>> {
     return this.http.post<ApiResponse<UserLoginDTO>>(
-      `${this.baseUrl}/auth/login`,
+      `${this.baseUrl}/${ApiEndpoints.Auth.Login}`,
       request
     );
   }
@@ -27,7 +28,7 @@ export class AuthService {
     request: UserRegisterRequest
   ): Observable<ApiResponse<UserRegisterDto>> {
     return this.http.post<ApiResponse<UserRegisterDto>>(
-      `${this.baseUrl}/auth/register`,
+      `${this.baseUrl}/${ApiEndpoints.Auth.Register}`,
       request
     );
   }
