@@ -61,9 +61,4 @@ export class AuthManagerService {
     const auth = this.getAuth();
     return auth ? auth.isActive : null;
   }
-
-  getUsername(): string | null {
-    const auth = this.getAuth();
-    return auth ? auth.username : null;
-  }
 }

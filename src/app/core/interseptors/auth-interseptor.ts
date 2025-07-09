@@ -6,29 +6,17 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NotificationService } from '../service/notification.service';
+import { AuthManagerService } from '../service/auth-manager.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private _notificationService: NotificationService) {}
+  constructor(private _authManagerService: AuthManagerService) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const authUserRaw = localStorage.getItem('auth_user');
-    let token: string | null = null;
-    if (authUserRaw) {
-      try {
-        const authUser = JSON.parse(authUserRaw);
-        token = authUser?.token || null;
-      } catch (e) {
-        this._notificationService.error(
-          `Invalid auth_user format in localStorage. ${e}`
-        );
-      }
-    }
-
+    const token = this._authManagerService.getToken();
     if (token) {
       const cloned = req.clone({
         setHeaders: {
