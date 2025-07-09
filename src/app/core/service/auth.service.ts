@@ -6,12 +6,13 @@ import { ApiResponse } from '../models/api-response.model';
 import { Observable } from 'rxjs';
 import { UserRegisterRequest } from '../models/auth/user-register-request.model';
 import { UserRegisterDto } from '../models/auth/user-register-dto.model';
+import { environment } from '../../../enviroments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private baseUrl = 'https://localhost:44395/api';
+  private baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 

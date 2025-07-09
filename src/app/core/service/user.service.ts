@@ -7,12 +7,13 @@ import { ApiResponse } from '../models/api-response.model';
 import { UserDetailsDto } from '../models/user/user-details-dto.model';
 import { UserDto } from '../models/user/user-dto.model';
 import { EditUserRequest } from '../models/user/edit-user-request.model';
+import { environment } from '../../../enviroments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private baseUrl = 'https://localhost:44395/api';
+  private baseUrl = environment.apiUrl;
 
   constructor(private _dataApiService: DataService) {}
 
