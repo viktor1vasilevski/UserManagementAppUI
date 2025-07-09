@@ -1,59 +1,48 @@
-# UserManagementAppUI
+# User Management Frontend (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
+A role-based user management frontend built with Angular. This app connects to the .NET 8 Web API backend and allows administrators to manage users and regular users to view their own profiles.
 
-## Development server
+## Tech Stack
 
-To start a local development server, run:
+- **Angular 19**
+- **TypeScript**
+- **RxJS**
+- **Angular Forms**
+- **Angular Router**
+- **HttpClient** (for API communication)
+- **ngx-toastr** (for user notifications)
+- **Bootstrap** (for styling)
+- **JWT-based Authentication**
+- **Role-Based Routing with Route Guards**
 
-```bash
-ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Features
 
-## Code scaffolding
+- User authentication and authorization with JWT tokens  
+- Role-based access control for administrators and regular users  
+- Administrators can create, edit, deactivate/reactivate, and delete users 
+- Real-time notifications using ngx-toastr  
+- Secure route guarding to restrict access based on roles and active status  
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
 
-```bash
-ng generate component component-name
-```
+## Usage
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+- **Admin users** can:
+  - View the list of all users
+  - Create new users
+  - Edit existing users’ details, including role and active status
+  - Deactivate/reactivate or delete users
 
-```bash
-ng generate --help
-```
+- **Regular users** can:
+  - View home page
 
-## Building
+- **Authentication flow:**
+  - Users must log in with valid credentials
+  - JWT tokens are stored securely and used for authenticated API requests
 
-To build the project run:
+- **Route Guards:**
+  - Prevent unauthorized access to admin-only routes
+  - Redirect inactive and unauthorized users to a dedicated pages
 
-```bash
-ng build
-```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
